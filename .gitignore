@@ -1,5 +1,7 @@
-.parcel-cache/
-dist/
+node_modules
+dist
+.parcel-cache
+.firebase
 
 # Logs
 
