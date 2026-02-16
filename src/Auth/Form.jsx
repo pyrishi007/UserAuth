@@ -1,28 +1,32 @@
 import { useState, useRef } from "react";
 import validation from "../Utils/validation";
+import UserAuthentication from "../services/authService";
 
 const Form = () => {
-  //change Form
-  const [form, setFrom] = useState(false);
+  const [isSignUPForm, setSignUPForm] = useState(false);
   const [errorMessage, seterrorMessage] = useState("");
 
-  //Referance
   const email = useRef();
   const inputref = useRef();
 
-  //Form Change trigger
-  const handleAuth = () => {
-    setFrom(!form);
+  const handlrForm = () => {
+    setSignUPForm(!isSignUPForm);
   };
 
   const handleAuthValidation = () => {
     const message = validation(email, inputref);
     seterrorMessage(message);
+    //form validation
+    if (message) return;
 
-   //For auth
-    if (!message) console.log(true);
-    
-    
+    console.log("ENTERING AUTH");
+
+    //Auth
+    UserAuthentication(
+      isSignUPForm,
+      email.current.value,
+      inputref.current.value,
+    );
   };
 
   return (
@@ -40,10 +44,10 @@ const Form = () => {
             className="text-white font-bold opacity-95 text-5xl absolute top-18"
             style={{ left: "60px" }}
           >
-            {form ? "Sign Up" : "Sign In"}
+            {isSignUPForm ? "Sign Up" : "Sign In"}
           </p>
 
-          {form && (
+          {isSignUPForm && (
             <input
               className="placeholder:w-sm w-[85%] h-17 mb-8 border border-gray-500 bg-gray-600/60 text-white text-xl px-5 rounded-[5px] focus:outline-none focus:ring-2 focus:border-none focus:ring-blue-600"
               type="Text"
@@ -58,7 +62,7 @@ const Form = () => {
             placeholder="Email Address"
           />
 
-          {form ? (
+          {isSignUPForm ? (
             <input
               ref={inputref}
               className="placeholder:w-sm w-[85%] h-17 border mb-8 border-gray-500 bg-gray-600/60 text-white text-xl px-5 rounded-[5px] focus:outline-none focus:ring-2 focus:border-none focus:ring-blue-600"
@@ -78,7 +82,7 @@ const Form = () => {
             className="w-[82%] h-13 bg-red-600 text-white text-xl rounded-[5px] cursor-p"
             onClick={handleAuthValidation}
           >
-            {form ? "Sign Up" : "Sign In"}
+            {isSignUPForm ? "Sign Up" : "Sign In"}
           </button>
           <p className="w-full text-center mt-4 mb-4 text-red-400 text-lg">
             {errorMessage}
@@ -87,9 +91,9 @@ const Form = () => {
             <p className="text-gray-300 text-xl">OR</p>
             <p
               className="text-gray-300 text-xl cursor-pointer pb-23"
-              onClick={handleAuth}
+              onClick={handlrForm}
             >
-              {form
+              {isSignUPForm
                 ? "Already a user? Sign In now"
                 : "New to Netflix? Sign up now."}
             </p>
