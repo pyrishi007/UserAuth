@@ -5,6 +5,8 @@ import { NEW_USER_CONFIG, ALREADY_USER_CONFIG } from "../Utils/toastConfigs";
 
 const UserAuthentication = (isSignUPForm, email, password) => {
   if (!isSignUPForm) {
+    //Sign-In Logic
+
   } else {
     //Sign-UP Logic
     createUserWithEmailAndPassword(auth, email, password)
@@ -18,7 +20,7 @@ const UserAuthentication = (isSignUPForm, email, password) => {
         console.log(errorCode + errorMessage);
         toast.info(
           "Account already exists. Please sign in.",
-          "ALREADY_USER_CONFIG",
+          ALREADY_USER_CONFIG,
         );
       });
   }
