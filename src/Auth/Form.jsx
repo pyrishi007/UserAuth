@@ -1,10 +1,14 @@
 import { useState, useRef } from "react";
 import validation from "../Utils/validation";
 import UserAuthentication from "../services/authService";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const Form = () => {
   const [isSignUPForm, setSignUPForm] = useState(false);
   const [errorMessage, seterrorMessage] = useState("");
+  const userinfo = useSelector((store) => store.user.userinfo);
+  const dispatch = useDispatch()
 
   const email = useRef();
   const inputref = useRef();
@@ -26,6 +30,7 @@ const Form = () => {
       isSignUPForm,
       email.current.value,
       inputref.current.value,
+      dispatch
     );
   };
 
