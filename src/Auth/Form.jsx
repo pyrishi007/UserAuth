@@ -41,9 +41,7 @@ const Form = () => {
         className="absolute z-10 w-full h-full flex justify-center items-center px-4"
       >
         <div
-          className="
-      w-full max-w-md
-      bg-black/80 backdrop-blur-xl
+          className="w-full max-w-md bg-black/80 backdrop-blur-xl
       border border-white/10
       shadow-[0_40px_120px_rgba(0,0,0,0.9)]
       rounded-2xl

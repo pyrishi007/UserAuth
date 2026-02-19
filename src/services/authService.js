@@ -1,14 +1,10 @@
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword,
 } from "firebase/auth";
 import auth from "../fireBase/authSdk";
 import { toast } from "react-toastify";
 import { NEW_USER_CONFIG, ALREADY_USER_CONFIG } from "../Utils/toastConfigs";
 
-import { userProfile } from "../redux/features/userSlice";
-
-// const dispatch = useDispatch();
 
 const UserAuthentication = (isSignUPForm, email, password) => {
   if (!isSignUPForm) {
@@ -42,5 +38,4 @@ const UserAuthentication = (isSignUPForm, email, password) => {
       });
   }
 };
-
 export default UserAuthentication;
