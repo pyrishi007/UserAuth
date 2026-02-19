@@ -1,37 +1,72 @@
 import { useState, useRef } from "react";
 import validation from "../Utils/validation";
-import UserAuthentication from "../services/authService";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import auth from "../fireBase/authSdk";
+import { toast } from "react-toastify";
+
+import {NEW_USER_CONFIG, ALREADY_USER_CONFIG, SIGN_IN_USER} from "../Utils/toastConfigs"
+
 
 
 const Form = () => {
+  const navigate = useNavigate();
   const [isSignUPForm, setSignUPForm] = useState(false);
   const [errorMessage, seterrorMessage] = useState("");
-  const userinfo = useSelector((store) => store.user.userinfo);
-  const dispatch = useDispatch()
+
 
   const email = useRef();
-  const inputref = useRef();
+  const password = useRef();
 
   const handlrForm = () => {
     setSignUPForm(!isSignUPForm);
   };
 
   const handleAuthValidation = () => {
-    const message = validation(email, inputref);
+    const message = validation(email, password);
     seterrorMessage(message);
     //form validation
     if (message) return;
 
     console.log("ENTERING AUTH");
 
-    //Auth
-    UserAuthentication(
-      isSignUPForm,
-      email.current.value,
-      inputref.current.value,
-      dispatch
-    );
+   if (!isSignUPForm) {
+    //Sign-In Logic
+    signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        toast.success("Welcome back 👋",SIGN_IN_USER);
+        navigate("/browse");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode + errorMessage);
+      });
+  } else {
+    //Sign-UP Logic
+    createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        toast.success("Account created successfully", NEW_USER_CONFIG);
+        console.log(user);
+        navigate("/browse");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode + errorMessage);
+        toast.info(
+          "Account already exists. Please sign in.",
+          ALREADY_USER_CONFIG,
+        );
+      });
+  }
   };
 
   return (
@@ -99,7 +134,7 @@ const Form = () => {
           {/* PASSWORD */}
           {isSignUPForm ? (
             <input
-              ref={inputref}
+              ref={password}
               className="
           w-full h-14
           bg-white/5
@@ -118,7 +153,7 @@ const Form = () => {
             />
           ) : (
             <input
-              ref={inputref}
+              ref={password}
               className="
           w-full h-14
           bg-white/5

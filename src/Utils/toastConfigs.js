@@ -38,3 +38,28 @@ export const ALREADY_USER_CONFIG = {
     background: "#e50914",
   },
 };
+
+
+export const SIGN_IN_USER =  {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          theme: "dark",
+          style: {
+            background: "rgba(20,20,20,0.95)",
+            color: "#fff",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: "10px",
+            padding: "14px 18px",
+            fontSize: "14px",
+            fontWeight: "500",
+            backdropFilter: "blur(6px)",
+          },
+          progressStyle: {
+            background: "linear-gradient(90deg,#e50914,#ff3d3d)",
+            height: "3px",
+          },
+        }

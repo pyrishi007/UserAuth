@@ -1,25 +1,30 @@
-import react from "react";
 import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import App from "./app";
 import Auth from "./Auth/Auth";
-import { ToastContainer } from "react-toastify";
+import Browse from "./Browse/Browse";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
-const App = () => {
-  return (
-    <div>
-      <Provider store={store}>
-        <Auth />
-        <ToastContainer />
-      </Provider>
-    </div>
-  );
-};
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />, // App is parent
+    children: [
+      {
+        path: "/",
+        element: <Auth />,
+      },
+      {
+        path: "/browse",
+        element: <Browse />,
+      },
+    ],
+  },
+]);
 
-
-
-
-
-
-const root = ReactDOM.createRoot(document.querySelector("#root"));
-root.render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>,
+);
